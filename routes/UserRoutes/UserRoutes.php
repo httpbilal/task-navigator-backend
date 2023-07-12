@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\UserControllers\UserController;
+use App\Http\Controllers\UserController\UserController;
 use Illuminate\Support\Facades\Route;
 
 // Public routes
