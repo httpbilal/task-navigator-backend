@@ -12,8 +12,9 @@ class UserController extends Controller
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'firstname' => 'nullable|string',
-            'lastname' => 'nullable|string',
+            'firstname' => 'required|string',
+            'lastname' => 'required|string',
+            'image' => 'nullable|binary',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6',
         ]);
@@ -27,6 +28,7 @@ class UserController extends Controller
                 'firstname' => $request->input('firstname'),
                 'lastname' => $request->input('lastname'),
                 'email' => $request->input('email'),
+                'image'=> $request->input('image'),
                 'password' => bcrypt($request->input('password'))
             ]);
 
@@ -63,8 +65,9 @@ class UserController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'firstname' => 'nullable|string',
-            'lastname' => 'nullable|string',
+            'firstname' => 'required|string',
+            'lastname' => 'required|string',
+            'image' => 'nullable|binary',
             'email' => 'email|unique:users,email,' . $user->id,
             'password' => 'min:6',
         ]);

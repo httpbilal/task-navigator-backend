@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\TaskControllers\TaskController;
+use App\Http\Controllers\TaskController\TaskController;
 use Illuminate\Support\Facades\Route;
 
 // Protected routes

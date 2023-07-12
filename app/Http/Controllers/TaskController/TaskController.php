@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\TaskControllers;
+namespace App\Http\Controllers\TaskController;
 
 use App\Http\Controllers\Controller;
 use App\Models\Task;
@@ -18,11 +18,11 @@ class TaskController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'nullable|string',
-            'description' => 'nullable|string',
+            'name' => 'required|string',
+            'description' => 'required|string',
             'assignees' => 'nullable|exists:users,id',
-            'priority' => 'nullable|in:high,medium,low',
-            'due_date' => 'nullable|date',
+            'priority' => 'required|in:high,medium,low',
+            'due_date' => 'required|date',
         ]);
 
         if ($validator->fails()) {
@@ -47,6 +47,8 @@ class TaskController extends Controller
             'assignees' => 'nullable|exists:users,id',
             'priority' => 'nullable|in:high,medium,low',
             'due_date' => 'nullable|date',
+
+
         ]);
 
         if ($validator->fails()) {
