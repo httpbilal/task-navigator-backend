@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('firstname');
             $table->string('lastname');
             $table->binary('image')->nullable();
+//            $table->string('image');
+
             $table->string('email')->unique();
             $table->string('password');
             $table->unsignedBigInteger('tasks')->nullable();

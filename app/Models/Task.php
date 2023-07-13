@@ -14,4 +14,9 @@ class Task extends Model
     public function users(){
         $this->belongsToMany(Task::class);
     }
+
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
 }

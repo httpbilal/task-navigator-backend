@@ -34,12 +34,17 @@ class TaskController extends Controller
         return response()->json(['task' => $task, 'message' => 'Task created successfully'], 201);
     }
 
-    public function show(Task $task)
+    public function show($id)
     {
-        return response()->json(['task' => $task]);
+        $task = Task::find($id);
+        if (!$task) {
+            return response()->json(['error' => 'Task not found'], 404);
+        }
+        return response()->json(['user' => $task]);
     }
 
-    public function update(Request $request, Task $task)
+
+    public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'nullable|string',
@@ -55,15 +60,22 @@ class TaskController extends Controller
             return response()->json(['error' => $validator->errors()], 400);
         }
 
-        $task->update($request->all());
+        $id->update($request->all());
 
-        return response()->json(['task' => $task, 'message' => 'Task updated successfully']);
+        return response()->json(['task' => $id, 'message' => 'Task updated successfully']);
     }
 
-    public function destroy(Task $task)
+
+    public function destroy($id)
     {
+        $task = Task::find($id);
+        if (!$task) {
+            return response()->json(['error' => 'Task not found'], 404);
+        }
+
         $task->delete();
 
         return response()->json(['message' => 'Task deleted successfully']);
     }
+
 }
