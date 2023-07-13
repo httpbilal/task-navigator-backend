@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\RedisTaskSaveController;
+namespace App\Http\Controllers\RedisController;
 use App\Http\Controllers\Controller;
 use App\Models\Task;
 use Illuminate\Support\Facades\Redis;
