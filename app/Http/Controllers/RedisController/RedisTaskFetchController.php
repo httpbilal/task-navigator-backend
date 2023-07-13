@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Redis;
 
 class RedisTaskFetchController extends Controller
 {
-    public function fetchTopTasksByPriority() {
+    public function fetchTopPriorityTasks() {
         $tasks = Task::where('priority', 'high')->orderBy('created_at', 'desc')->take(10)->get();
     
         // Store the tasks as JSON in Redis
