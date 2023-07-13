@@ -19,15 +19,9 @@ return new class extends Migration
             $table->string('description');
             $table->date('due_date');
             $table->enum('priority', ['high', 'medium', 'low']);
-            $table->unsignedBigInteger('assignees')->nullable();
             $table->timestamps();
-
-            $table->foreign('assignees')->references('id')->on('users');
         });
 
-        Schema::table('users', function (Blueprint $table) {
-            $table->foreign('tasks')->references('id')->on('tasks')->onDelete('cascade');
-        });
 
     }
 

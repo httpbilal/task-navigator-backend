@@ -24,7 +24,6 @@ class UserFactory extends Factory
             'email' => $this->faker->unique()->safeEmail,
             'password' => bcrypt('password'), // Update this with your desired default password
             'tasks' => null,
-            'remember_token' => Str::random(10),
         ];
     }
 

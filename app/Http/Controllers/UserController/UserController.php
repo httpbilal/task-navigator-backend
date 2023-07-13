@@ -4,6 +4,7 @@ namespace App\Http\Controllers\UserController;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Usersandtasks;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -16,6 +17,7 @@ class UserController extends Controller
             'firstname' => 'required|string',
             'lastname' => 'nullable|string',
             'image' => 'nullable|string',
+            'tasks' => 'nullable|integer',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6',
         ]);
@@ -28,9 +30,9 @@ class UserController extends Controller
             $user = User::create([
                 'firstname' => $request->input('firstname'),
                 'lastname' => $request->input('lastname'),
+                'image' => $this->saveImageFromBase64($request->input('image')),
                 'email' => $request->input('email'),
                 'password' => bcrypt($request->input('password')),
-                'image' => $this->saveImageFromBase64($request->input('image')),
             ]);
 
             if ($user) {
@@ -69,6 +71,7 @@ class UserController extends Controller
             'firstname' => 'nullable|string',
             'lastname' => 'nullable|string',
             'image' => 'nullable|string',
+            'tasks' => 'nullable|integer',
             'email' => 'nullable|email|unique:users,email,' . $user->id,
             'password' => 'nullable|min:6',
         ]);

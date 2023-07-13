@@ -6,3 +6,4 @@ use Illuminate\Support\Facades\Route;
 require_once __DIR__ . '/AuthRoutes/AuthRoutes.php';
 require_once __DIR__ . '/UserRoutes/UserRoutes.php';
 require_once __DIR__ . '/TaskRoutes/TaskRoutes.php';
+require_once __DIR__ . '/TaskUserRoutes/TaskUserRoutes.php';
