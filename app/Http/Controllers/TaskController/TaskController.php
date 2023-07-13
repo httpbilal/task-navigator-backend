@@ -47,8 +47,6 @@ class TaskController extends Controller
             'assignees' => 'nullable|exists:users,id',
             'priority' => 'nullable|in:high,medium,low',
             'due_date' => 'nullable|date',
-
-
         ]);
 
         if ($validator->fails()) {

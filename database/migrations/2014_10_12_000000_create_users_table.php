@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('firstname');
             $table->string('lastname');
-            $table->binary('image')->nullable();
+            $table->string('image')->nullable();
             $table->string('email')->unique();
             $table->string('password');
             $table->unsignedBigInteger('tasks')->nullable();
