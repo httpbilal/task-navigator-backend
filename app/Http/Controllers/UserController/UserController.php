@@ -4,8 +4,10 @@ namespace App\Http\Controllers\UserController;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Usersandtasks;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+
 
 class UserController extends Controller
 {
@@ -13,8 +15,9 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'firstname' => 'required|string',
-            'lastname' => 'required|string',
-            'image' => 'nullable|binary',
+            'lastname' => 'nullable|string',
+            'image' => 'nullable|string',
+            'tasks' => 'nullable|integer',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6',
         ]);
@@ -27,9 +30,9 @@ class UserController extends Controller
             $user = User::create([
                 'firstname' => $request->input('firstname'),
                 'lastname' => $request->input('lastname'),
+                'image' => $this->saveImageFromBase64($request->input('image')),
                 'email' => $request->input('email'),
-                'image'=> $request->input('image'),
-                'password' => bcrypt($request->input('password'))
+                'password' => bcrypt($request->input('password')),
             ]);
 
             if ($user) {
@@ -65,15 +68,20 @@ class UserController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'firstname' => 'required|string',
-            'lastname' => 'required|string',
-            'image' => 'nullable|binary',
-            'email' => 'email|unique:users,email,' . $user->id,
-            'password' => 'min:6',
+            'firstname' => 'nullable|string',
+            'lastname' => 'nullable|string',
+            'image' => 'nullable|string',
+            'tasks' => 'nullable|integer',
+            'email' => 'nullable|email|unique:users,email,' . $user->id,
+            'password' => 'nullable|min:6',
         ]);
 
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 400);
+        }
+
+        if ($request->has('image')) {
+            $user->image = $this->saveImageFromBase64($request->input('image'));
         }
 
         $user->update($request->all());
@@ -91,5 +99,16 @@ class UserController extends Controller
         $user->delete();
 
         return response()->json(['message' => 'User deleted successfully']);
+    }
+
+    private function saveImageFromBase64($imageData)
+    {
+        if ($imageData) {
+            $imagePath = 'images/' . uniqid() . '.png';
+            $decodedImage = base64_decode($imageData);
+            file_put_contents(public_path($imagePath), $decodedImage);
+            return $imagePath;
+        }
+        return null;
     }
 }
