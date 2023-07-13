@@ -1,16 +1,8 @@
 <?php
-
-<<<<<<< Updated upstream
 namespace App\Http\Controllers\RedisController;
 use App\Http\Controllers\Controller;
 use App\Models\Task;
-use App\Models\UsersTasks;
-use Illuminate\Support\Facades\Redis;
-=======
-namespace App\Http\Controllers;
-use App\Models\Task;
 use Illuminate\Http\Request;
->>>>>>> Stashed changes
 
 class RedisTaskFetchController extends Controller
 {

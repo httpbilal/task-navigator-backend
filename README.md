@@ -97,10 +97,16 @@ Task Navigator provides a comprehensive set of API routes to interact with the s
 
 - Task Management:
     - `GET /api/tasks`: Get all tasks for the authenticated user.
+    - `GET /api/fetch-top-tasks/{userId}`: Get top-priority tasks for the authenticated user.
+    - `GET /api/tasks/{taskId}`: Delete a specific task.
     - `POST /api/tasks`: Create a new task.
+    - `POST /api/save-top-tasks/{userId}`: Save top-priority tasks 
     - `GET /api/tasks/{taskId}`: Get a specific task.
     - `PUT /api/tasks/{taskId}`: Update a specific task.
     - `DELETE /api/tasks/{taskId}`: Delete a specific task.
+    
+
+
 
 [//]: # (- Status Management:)
 
