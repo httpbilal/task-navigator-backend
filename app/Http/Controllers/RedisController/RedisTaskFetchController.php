@@ -1,7 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
-
+namespace App\Http\Controllers\RedisController;
+use App\Http\Controllers\Controller;
 use App\Models\Task;
 use App\Models\UsersTasks;
 use Illuminate\Support\Facades\Redis;
@@ -11,7 +11,7 @@ class RedisTaskFetchController extends Controller
     public function fetchTopPriorityTasks(int $userId)
     {
         $userTasks = UsersTasks::where('user_id', $userId)->pluck('task_id');
-        
+
         $tasks = Task::whereIn('id', $userTasks)
             ->orderBy('priority', 'desc')
             ->take(10)
