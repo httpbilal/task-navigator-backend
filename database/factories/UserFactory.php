@@ -23,7 +23,6 @@ class UserFactory extends Factory
             'image' => null,
             'email' => $this->faker->unique()->safeEmail,
             'password' => bcrypt('password'), // Update this with your desired default password
-            'tasks' => null,
         ];
     }
 

@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\UsersTasks;
 
 class UsersTasksSeeder extends Seeder
 {
@@ -14,6 +15,6 @@ class UsersTasksSeeder extends Seeder
      */
     public function run()
     {
-        //
+        UsersTasks::factory()->count(30)->create();
     }
 }

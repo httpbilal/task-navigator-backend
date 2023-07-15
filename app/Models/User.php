@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use App\Models\Task;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -59,7 +60,8 @@ class User extends Authenticatable implements JWTSubject
     }
 
 
-    public function tasks(){
-        $this->belongsToMany(User::class);
+    public function tasks()
+    {
+        return $this->belongsToMany(Task::class, 'users_tasks');
     }
 }
