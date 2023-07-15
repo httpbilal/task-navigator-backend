@@ -39,6 +39,7 @@ Task Navigator is a backend project that offers a range of features for efficien
 - Project Management: Create, update, and delete projects within a workspace.
 - Status Tracking: Track the status of tasks to monitor progress.
 - API Security: Implement authentication and authorization mechanisms to secure the API.
+- Service Management: Connect with MongoDB for seamless integration and data management.
 
 ## Technologies
 
