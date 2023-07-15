@@ -17,7 +17,11 @@ class RedisController extends Controller
                         return response()->json(['message' => 'User not found'], 404);
                 }
 
-                $tasks = $user->tasks()->orderBy('priority', 'desc')->take(10)->get();
+                $tasks = $user->tasks()->where('priority', 'high')->orderBy('priority', 'desc')->take(10)->get();
+
+                if ($tasks->isEmpty()) {
+                        return response()->json(['message' => 'No high priority tasks found'], 404);
+                    }
 
                 if ($tasks->count() === 0) {
                         return response()->json(['message' => 'Task not found'], 404);
