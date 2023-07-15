@@ -17,34 +17,58 @@ class RedisController extends Controller
                         return response()->json(['message' => 'User not found'], 404);
                 }
 
-                $tasks = $user->tasks()->where('priority', 'high')->orderBy('priority', 'desc')->take(10)->get();
+                $existingTasksCount = Redis::scard('user_tasks:' . $user->id);
+                $remainingSlots = 10 - $existingTasksCount;
+
+                if ($remainingSlots <= 0) {
+                        return response()->json(['message' => 'Task limit reached for the user'], 403);
+                }
+
+                $tasks = $user->tasks()
+                        ->where('priority', 'high')
+                        ->orderBy('priority', 'desc')
+                        ->take($remainingSlots)
+                        ->get();
 
                 if ($tasks->isEmpty()) {
                         return response()->json(['message' => 'No high priority tasks found'], 404);
-                    }
-
-                if ($tasks->count() === 0) {
-                        return response()->json(['message' => 'Task not found'], 404);
                 }
 
-                Redis::set('user_tasks:' . $user->id, $tasks->toJson());
+                // Store the tasks in Redis
+                foreach ($tasks as $task) {
+                        Redis::sadd('user_tasks:' . $user->id, $task->toJson());
+                }
 
                 return response()->json(['message' => 'Tasks saved successfully'], 200);
         }
 
 
+
+
         public function fetchTopPriorityTasks(int $userId)
         {
-                $tasksJson = Redis::get('user_tasks:' . $userId);
+                $user = User::find($userId);
 
-                if (!$tasksJson) {
+                if (!$user) {
+                        return response()->json(['message' => 'User not found'], 404);
+                }
+
+                $tasksJson = Redis::smembers('user_tasks:' . $user->id);
+
+                if (empty($tasksJson)) {
                         return response()->json(['message' => 'No tasks found for the user in Redis'], 404);
                 }
 
-                $tasks = json_decode($tasksJson);
+                $tasks = [];
+
+                foreach ($tasksJson as $taskJson) {
+                        $tasks[] = json_decode($taskJson);
+                }
 
                 return response()->json(['tasks' => $tasks]);
         }
+
+
 
 
 }
