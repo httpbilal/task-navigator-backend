@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    'default' => env('DB_CONNECTION', 'pgsql'),
 
     /*
     |--------------------------------------------------------------------------
@@ -91,6 +91,17 @@ return [
             'prefix_indexes' => true,
         ],
 
+        'mongodb' => [
+            'driver' => 'mongodb',
+            'dsn' => env('DB_CONNECTION_STRING'),
+            'database' => env('MONGO_DB_DATABASE', 'Log_activity_records'),
+            'username' => env('MONGO_DB_USERNAME', 'ali'),
+            'password' => env('MONGO_DB_PASSWORD', 'mud 7866'),
+            'options' => [
+                'database' => env('MONGO_DB_AUTHENTICATION_DATABASE', 'admin'),
+            ],
+        ],
+
     ],
 
     /*
@@ -117,31 +128,32 @@ return [
     |
     */
 
-    'redis' => [
+    // 'redis' => [
 
-        'client' => env('REDIS_CLIENT', 'phpredis'),
+    //     'client' => 'predis',
 
-        'options' => [
-            'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),
-        ],
+    //     'default' => [
+    //         'url' => env('REDIS_URL'),
+    //         'host' => env('REDIS_HOST', '127.0.0.1'),
+    //         'password' => env('REDIS_PASSWORD'),
+    //         'port' => env('REDIS_PORT', '6379'),
+    //         'database' => env('REDIS_DB', '0'),
+    //         'options' => [
+    //             'ssl' => false,
+    //         ],
+    //     ],
 
-        'default' => [
-            'url' => env('REDIS_URL'),
-            'host' => env('REDIS_HOST', '127.0.0.1'),
-            'password' => env('REDIS_PASSWORD'),
-            'port' => env('REDIS_PORT', '6379'),
-            'database' => env('REDIS_DB', '0'),
-        ],
+    //     'cache' => [
+    //         'url' => env('REDIS_URL'),
+    //         'host' => env('REDIS_HOST', '127.0.0.1'),
+    //         'password' => env('REDIS_PASSWORD'),
+    //         'port' => env('REDIS_PORT', '6379'),
+    //         'database' => env('REDIS_CACHE_DB', '1'),
+    //         'options' => [
+    //             'ssl' => false,
+    //         ],
+    //     ],
 
-        'cache' => [
-            'url' => env('REDIS_URL'),
-            'host' => env('REDIS_HOST', '127.0.0.1'),
-            'password' => env('REDIS_PASSWORD'),
-            'port' => env('REDIS_PORT', '6379'),
-            'database' => env('REDIS_CACHE_DB', '1'),
-        ],
-
-    ],
+    // ],
 
 ];

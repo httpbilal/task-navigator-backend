@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
 class Task extends Model
 {
@@ -11,8 +12,9 @@ class Task extends Model
 
     protected $fillable = ['name', 'description', 'due_date', 'priority'];
 
-    public function users(){
-        $this->belongsToMany(Task::class);
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'users_tasks');
     }
 
     protected $hidden = [

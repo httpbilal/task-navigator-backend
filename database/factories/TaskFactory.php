@@ -16,7 +16,6 @@ class TaskFactory extends Factory
             'description' => $this->faker->paragraph(2), // generates a paragraph with 2 sentences
             'due_date' => $this->faker->dateTimeBetween('now', '+1 month')->format('Y-m-d'),
             'priority' => $this->faker->randomElement(['high', 'medium', 'low']),
-            'assignees' => null,
         ];
     }
 }
