@@ -40,6 +40,7 @@ Task Navigator is a backend project that offers a range of features for efficien
 - Status Tracking: Track the status of tasks to monitor progress.
 - API Security: Implement authentication and authorization mechanisms to secure the API.
 - Service Management: Connect with MongoDB for seamless integration and data management.
+- Log User Activity: Tracking and Logging user activity.
 
 ## Technologies
 
@@ -48,6 +49,7 @@ Task Navigator uses the following technologies:
 - Laravel: A popular PHP framework for web application development.
 - Spatie: A Laravel package for managing roles and permissions.
 - Tymon: A Laravel package for handling JSON Web Tokens (JWT) for authentication.
+- MongoDB Integration: Enable comprehensive activity tracking by collecting and storing all user activity in the database for effective monitoring and analysis.
 
 ## Installation
 
