@@ -2,20 +2,25 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\ActivityLog;
 use Closure;
 use Illuminate\Http\Request;
+use Jenssegers\Mongodb\Facades\MongoDB;
+
 
 class LogUserActivity
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
-     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
-     */
     public function handle(Request $request, Closure $next)
     {
+        // Log the user activity
+        $activityLog = new ActivityLog();
+        $activityLog->url = $request->fullUrl();
+        $activityLog->method = $request->method();
+        // $activityLog->payload = $request->all();
+        $activityLog->ip = $request->ip();
+        $activityLog->user_agent = $request->header('User-Agent');
+        $activityLog->save();
+
         return $next($request);
     }
 }
