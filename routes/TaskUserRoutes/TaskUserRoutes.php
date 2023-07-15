@@ -4,7 +4,7 @@ use App\Http\Controllers\UsersTasksController\UsersTasksController;
 use Illuminate\Support\Facades\Route;
 
 // Protected routes
-Route::middleware('auth:api')->group(function () {
+Route::group(['middleware' => ['LogUserActivity', 'auth:api']], function () {
     Route::get('ut', [UsersTasksController::class, 'index']);
     Route::post('ut', [UsersTasksController::class, 'store']);
     Route::get('ut/{id}', [UsersTasksController::class, 'show']);
