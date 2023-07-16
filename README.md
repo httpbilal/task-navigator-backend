@@ -24,9 +24,7 @@ Task Navigator is a robust backend project that provides an API for managing tas
 - [License](#license)
 
 [//]: # (- [Docker Deployment]&#40;#docker-deployment&#41;)
-
 [//]: # (- [Version Control with Git]&#40;#version-control-with-git&#41;)
-
 
 ## Overview
 
@@ -95,31 +93,20 @@ Task Navigator provides a comprehensive set of API routes to interact with the s
     - `PUT /api/tasks/{taskId}`: Update a specific task.
     - `DELETE /api/tasks/{taskId}`: Delete a specific task.
 
-- Status Management:
-    - `GET /api/statuses`: Get all statuses for the authenticated user.
-    - `POST /api/statuses`: Create a new status.
-    - `GET /api/statuses/{statusId}`: Get a specific status.
-    - `PUT /api/statuses/{statusId}`: Update a specific status.
-    - `DELETE /api/statuses/{statusId}`: Delete a specific status.
+- User Task Management: (Additional routes you provided)
+    - `GET /api/ut/user/{userId}`: Get all tasks assigned to a specific user.
+    - `GET /api/ut/task/{taskId}`: Get all users assigned to a specific task.
 
 ## Contributing
 
 Contributions to Task Navigator are welcome! If you find any bugs, have suggestions for improvements, or would like to add new features, please feel free to submit a pull request. Follow the guidelines outlined in the contributing guide.
 
 [//]: # (## Docker Deployment)
-
 [//]: # ()
 [//]: # (To deploy Task Navigator using Docker, follow these steps:)
-
 [//]: # ()
 [//]: # (1. Build the Docker image using `docker build -t task-navigator .`.)
-
 [//]: # (2. Run the Docker container using `docker run -p 8000:80 task-navigator`.)
-
-[//]: # (## Version Control with Git)
-
-[//]: # ()
-[//]: # (Task Navigator uses Git for version control. To clone the repository, use `git clone`. To create a new branch, use `git branch`. To switch to a branch, use `git checkout`. To commit changes, use `git commit`. To push changes to the remote repository, use `git push`.)
 
 ## License
 
