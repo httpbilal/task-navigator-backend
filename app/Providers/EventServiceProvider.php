@@ -18,6 +18,24 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        'eloquent.created: App\Models\Task' => [
+            'App\Listeners\TaskCreatedListener',
+        ],
+        'eloquent.updated: App\Models\Task' => [
+            'App\Listeners\TaskUpdatedListener',
+        ],
+        'eloquent.deleted: App\Models\Task' => [
+            'App\Listeners\TaskDeletedListener',
+        ],
+        'eloquent.deleted: App\Models\User' => [
+            'App\Listeners\UserDeletedListener',
+        ],
+        'eloquent.created: App\Models\UsersTasks' => [
+            'App\Listeners\UsersTasksCreatedListener',
+        ],
+        'eloquent.deleted: App\Models\UsersTasks' => [
+            'App\Listeners\UsersTasksDeletedListener',
+        ],
     ];
 
     /**
