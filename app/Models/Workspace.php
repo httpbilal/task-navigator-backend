@@ -17,6 +17,6 @@ class Workspace extends Model
 
     public function ownerUser()
     {
-        return $this->belongsTo(User::class, 'owner');
+        return $this->belongsTo(User::class, 'owner_id');
     }
 }

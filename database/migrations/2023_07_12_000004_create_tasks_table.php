@@ -13,14 +13,19 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('projects', function (Blueprint $table) {
+        Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->unsignedInteger('workspace');
+            $table->string('description');
+            $table->date('due_date');
+            $table->enum('priority', ['high', 'medium', 'low']);
+            $table->unsignedInteger('project_id');
             $table->timestamps();
 
-            $table->foreign('workspace')->references('id')->on('workspaces');
+            $table->foreign('project_id')->references('id')->on('projects');
         });
+
+
     }
 
     /**
@@ -30,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('projects');
+        Schema::dropIfExists('tasks');
     }
 };

@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Usersandtasks;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 
 class UserController extends Controller
@@ -16,7 +17,7 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'firstname' => 'required|string',
             'lastname' => 'nullable|string',
-            'image' => 'nullable|string',
+            'image' => 'nullable|base64image',
             'tasks' => 'nullable|integer',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6',
@@ -27,10 +28,12 @@ class UserController extends Controller
         }
 
         try {
+            $imagePath = $this->saveImageFromBase64($request->input('image')); // Convert base64 to image path
+
             $user = User::create([
                 'firstname' => $request->input('firstname'),
                 'lastname' => $request->input('lastname'),
-                'image' => $this->saveImageFromBase64($request->input('image')),
+                'image' => $imagePath, // Store the image path
                 'email' => $request->input('email'),
                 'password' => bcrypt($request->input('password')),
             ]);
@@ -70,7 +73,7 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'firstname' => 'nullable|string',
             'lastname' => 'nullable|string',
-            'image' => 'nullable|string',
+            'image' => 'nullable|base64image', // Use the custom validation rule for base64 images
             'tasks' => 'nullable|integer',
             'email' => 'nullable|email|unique:users,email,' . $user->id,
             'password' => 'nullable|min:6',
@@ -81,7 +84,7 @@ class UserController extends Controller
         }
 
         if ($request->has('image')) {
-            $user->image = $this->saveImageFromBase64($request->input('image'));
+            $user->image = $this->saveImageFromBase64($request->input('image')); // Convert base64 to image path and update
         }
 
         $user->update($request->all());
@@ -104,11 +107,21 @@ class UserController extends Controller
     private function saveImageFromBase64($imageData)
     {
         if ($imageData) {
-            $imagePath = 'images/' . uniqid() . '.png';
-            $decodedImage = base64_decode($imageData);
-            file_put_contents(public_path($imagePath), $decodedImage);
-            return $imagePath;
+            // Generate a unique filename for the image
+            $filename = uniqid() . '.png';
+
+            // Get the base64 data from the image data string
+            $base64Image = explode(',', $imageData, 2)[1];
+
+            // Decode the base64 data
+            $decodedImage = base64_decode($base64Image);
+
+            // Save the image to the storage/app directory using the Storage facade
+            Storage::put('images/' . $filename, $decodedImage);
+
+            return 'images/' . $filename;
         }
         return null;
     }
+
 }
