@@ -33,12 +33,17 @@ class UsersTasksController extends Controller
         return response()->json(['users_tasks' => $usersTasks], 201);
     }
 
-    public function show(UsersTasks $usersTasks)
+    public function show($id)
     {
-        return response()->json(['users_tasks' => $usersTasks]);
+        $usertask = UsersTasks::find($id);
+        if (!$usertask) {
+            return response()->json(['error' => 'NO assignment found'], 404);
+        }
+        return response()->json(['users_tasks' => $usertask]);
     }
 
-    public function update(Request $request, UsersTasks $usersTasks)
+
+    public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
             'user_id' => 'required|exists:users,id',
@@ -49,16 +54,54 @@ class UsersTasksController extends Controller
             return response()->json(['error' => $validator->errors()], 400);
         }
 
-        $usersTasks->user_id = $request->input('user_id');
-        $usersTasks->task_id = $request->input('task_id');
-        $usersTasks->save();
+        $usersTask = UsersTasks::find($id);
 
-        return response()->json(['users_tasks' => $usersTasks]);
+        if (!$usersTask) {
+            return response()->json(['error' => 'Users task not found'], 404);
+        }
+
+        $usersTask->user_id = $request->input('user_id');
+        $usersTask->task_id = $request->input('task_id');
+        $usersTask->save();
+
+        return response()->json(['users_task' => $usersTask]);
     }
 
-    public function destroy(UsersTasks $usersTasks)
+
+
+    public function destroy($id)
     {
-        $usersTasks->delete();
-        return response()->json(['message' => 'Users tasks deleted successfully']);
+        $usersTask = UsersTasks::find($id);
+
+        if (!$usersTask) {
+            return response()->json(['error' => 'Users task not found'], 404);
+        }
+
+        $usersTask->delete();
+        return response()->json(['message' => 'Users task deleted successfully']);
     }
+
+    public function getUserAssignedTasks($userId)
+    {
+        $userTasks = UsersTasks::where('user_id', $userId)->get();
+
+        if ($userTasks->isEmpty()) {
+            return response()->json(['message' => 'No tasks assigned to this user'], 200);
+        }
+
+        return response()->json(['user_assigned_tasks' => $userTasks], 200);
+    }
+
+    public function getTaskAssignedUsers($taskId)
+    {
+        $taskUsers = UsersTasks::where('task_id', $taskId)->get();
+
+        if ($taskUsers->isEmpty()) {
+            return response()->json(['message' => 'No users assigned to this task'], 200);
+        }
+
+        return response()->json(['task_assigned_users' => $taskUsers], 200);
+    }
+
+
 }

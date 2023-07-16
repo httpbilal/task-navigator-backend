@@ -10,4 +10,6 @@ Route::group(['middleware' => ['LogUserActivity', 'auth:api']], function () {
     Route::get('ut/{id}', [UsersTasksController::class, 'show']);
     Route::put('ut/{id}', [UsersTasksController::class, 'update']);
     Route::delete('ut/{id}', [UsersTasksController::class, 'destroy']);
+    Route::get('/ut/user/{userId}',[UsersTasksController::class, 'getUserAssignedTasks']);
+    Route::get('/ut/task/{taskId}',[UsersTasksController::class, 'getTaskAssignedUsers']);
 });
