@@ -1,29 +1,33 @@
 <?php
+namespace App\Listeners;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Log;
 
 class TaskUpdatedListener
 {
     // ...
 
-    public function handle($event)
+    public function handle($task)
     {
-        $task = $event->task;
+        Log::info('TaskUpdatedListener is running for task id: ' . $task->id);
+        foreach ($task->users as $user) {
+            $key = 'user_tasks:' . $user->id;
 
-        // If priority is updated to high
-        if ($task->isDirty('priority') && $task->priority === 'high') {
-            foreach ($task->users as $user) {
-                $existingTasksCount = Redis::scard('user_tasks:' . $user->id);
-                if ($existingTasksCount < 10) {
-                    Redis::sadd('user_tasks:' . $user->id, $task->toJson());
-                }
-            }
-        }
+            // Remove all tasks from Redis for this user
+            Redis::del($key);
 
-        // If priority is updated from high to another priority
-        if ($task->isDirty('priority') && $task->getOriginal('priority') === 'high') {
-            foreach ($task->users as $user) {
-                Redis::srem('user_tasks:' . $user->id, $task->toJson());
+            // Get updated tasks for the user from the database
+            $updatedTasks = $user->tasks()
+                ->where('priority', 'high')
+                ->orderBy('priority', 'desc')
+                ->take(10)
+                ->get();
+
+            // Store the updated tasks back to Redis
+            foreach ($updatedTasks as $updatedTask) {
+                Redis::sadd($key, $updatedTask->toJson());
             }
         }
     }
+
 }

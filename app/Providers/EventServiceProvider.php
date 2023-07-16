@@ -24,6 +24,9 @@ class EventServiceProvider extends ServiceProvider
         'eloquent.updated: App\Models\Task' => [
             'App\Listeners\TaskUpdatedListener',
         ],
+        'App\Events\TaskDeleting' => [
+            'App\Listeners\TaskDeletingListener',
+        ],
         'eloquent.deleted: App\Models\Task' => [
             'App\Listeners\TaskDeletedListener',
         ],

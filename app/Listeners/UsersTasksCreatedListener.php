@@ -6,10 +6,8 @@ use App\Models\Task;
 
 class UsersTasksCreatedListener
 {
-    public function handle($event)
+    public function handle($usersTasks)
     {
-        $usersTasks = $event->usersTasks;
-
         $task = Task::find($usersTasks->task_id);
         $user = $usersTasks->user_id;
 
@@ -20,5 +18,6 @@ class UsersTasksCreatedListener
             }
         }
     }
+
 }
 

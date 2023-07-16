@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Events\TaskDeleting;
 
 class TaskController extends Controller
 {
@@ -76,6 +77,7 @@ class TaskController extends Controller
             return response()->json(['error' => 'Task not found'], 404);
         }
 
+        event(new TaskDeleting($task));
         $task->delete();
 
         return response()->json(['message' => 'Task deleted successfully']);

@@ -1,14 +1,13 @@
 <?php
-// ...
+
+namespace App\Listeners;
 use Illuminate\Support\Facades\Redis;
 
 class TaskCreatedListener
 {
 
-    public function handle($event)
+    public function handle($task)
     {
-        $task = $event->task;
-
         if ($task->priority === 'high') {
             foreach ($task->users as $user) {
                 $existingTasksCount = Redis::scard('user_tasks:' . $user->id);
@@ -18,4 +17,5 @@ class TaskCreatedListener
             }
         }
     }
+
 }
