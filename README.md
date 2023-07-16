@@ -39,7 +39,7 @@ Task Navigator is a backend project that offers a range of features for efficien
 - Project Management: Create, update, and delete projects within a workspace.
 - Status Tracking: Track the status of tasks to monitor progress.
 - API Security: Implement authentication and authorization mechanisms to secure the API.
-- Service Management: Connect with MongoDB for seamless integration and data management.
+- Service Management: Connect with MongoDB for seamless integration and enabling storage of user log activity.
 - Log User Activity: Tracking and Logging user activity.
 
 ## Technologies
@@ -122,6 +122,15 @@ Task Navigator provides a comprehensive set of API routes to interact with the s
 [//]: # (    - `PUT /api/statuses/{statusId}`: Update a specific status.)
 
 [//]: # (    - `DELETE /api/statuses/{statusId}`: Delete a specific status.)
+
+
+- Log Activity Management:
+    - `GET /api/user_logs`: Retrieve all log activities for the user.
+    - `GET /api/user_log/{email}`: Retrieve a specific user's log activity.
+    - `DELETE /api/destory_log/{email}`: Delete a specific user's log activity.
+
+
+
 
 ## Contributing
 
