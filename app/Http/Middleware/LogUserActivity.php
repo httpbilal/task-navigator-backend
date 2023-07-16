@@ -16,6 +16,7 @@ class LogUserActivity
         $activityLog->url = $request->fullUrl();
         $activityLog->method = $request->method();
         $activityLog->email = $request->email;
+        // $activityLog->payload = $request->all();
         $activityLog->ip = $request->ip();
         $activityLog->user_agent = $request->header('User-Agent');
         $activityLog->save();

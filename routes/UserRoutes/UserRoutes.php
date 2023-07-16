@@ -10,7 +10,7 @@ Route::post('register', [UserController::class, 'register']);
 
 
 // Protected routes
-Route::group(['middleware' => ['LogUserActivity', 'auth:api']], function () {
+Route::group(['middleware' => ['auth:api' , 'LogUserActivity']], function () {
     Route::get('users', [UserController::class, 'index']);
     Route::get('users/{id}', [UserController::class, 'show']);
     Route::put('users/{id}', [UserController::class, 'update']);
