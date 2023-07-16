@@ -103,9 +103,11 @@ Task Navigator provides a comprehensive set of API routes to interact with the s
 
 - Log Activity Management:
     - `GET /api/user_logs`: Retrieve all log activities for the user.
+    - `GET /api/user_logs/nonauth`: Retrieve all log of unauthenticate user's.
     - `GET /api/user_log/{email}`: Retrieve a specific user's log activity.
+    - `GET /api/user_logs/auth`: Retrieve all log of authenticate user's.
     - `DELETE /api/destory_log/{email}`: Delete a specific user's log activity.
-
+    
 - Redis Task Priority Management:
     - `GET /api/fetch-top-tasks/{userId}`: Fetch high priority tasks for the user.
     - `POST /api/cache-top-tasks/{userId}',`: Cache High priority tasks for the user
