@@ -106,6 +106,10 @@ Task Navigator provides a comprehensive set of API routes to interact with the s
     - `GET /api/user_log/{email}`: Retrieve a specific user's log activity.
     - `DELETE /api/destory_log/{email}`: Delete a specific user's log activity.
 
+- Redis Task Priority Management:
+    - `GET /api/fetch-top-tasks/{userId}`: Fetch high priority tasks for the user.
+    - `POST /api/cache-top-tasks/{userId}',`: Cache High priority tasks for the user
+
 
 
 
