@@ -19,7 +19,10 @@ return new class extends Migration
             $table->string('description');
             $table->date('due_date');
             $table->enum('priority', ['high', 'medium', 'low']);
+            $table->unsignedInteger('project_id');
             $table->timestamps();
+
+            $table->foreign('project_id')->references('id')->on('projects');
         });
 
 

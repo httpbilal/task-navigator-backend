@@ -2,6 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Project;
+use App\Models\User;
+use App\Models\UsersTasks;
+use App\Models\Workspace;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Task;
@@ -17,9 +21,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
-        \App\Models\User::factory(100)->create();
+        User::factory(100)->create();
+        Workspace::factory()->count(100)->create();
+        Project::factory()->count(100)->create();
         Task::factory()->count(100)->create();
+<<<<<<< HEAD
         UsersTasks::factory()->count(30)->create();
+=======
+        UsersTasks::factory()->count(100)->create();
+>>>>>>> bilalwork
     }
 }

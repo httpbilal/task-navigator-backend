@@ -47,7 +47,7 @@ class TaskController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'nullable|string',
+            'name' => 'nullable|string|max:255',
             'description' => 'nullable|string',
             'assignees' => 'nullable|exists:users,id',
             'priority' => 'nullable|in:high,medium,low',
@@ -58,9 +58,14 @@ class TaskController extends Controller
             return response()->json(['error' => $validator->errors()], 400);
         }
 
-        $id->update($request->all());
+        $task = Task::find($id);
+        if (!$task) {
+            return response()->json(['error' => 'Task not found'], 404);
+        }
 
-        return response()->json(['task' => $id, 'message' => 'Task updated successfully']);
+        $task->update($validator->validated());
+
+        return response()->json(['task' => $task, 'message' => 'Task updated successfully']);
     }
 
 
