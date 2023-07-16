@@ -4,7 +4,7 @@ use App\Http\Controllers\WorkspacesController\WorkspacesController;
 use Illuminate\Support\Facades\Route;
 
 // Protected routes
-Route::middleware('auth:api')->group(function () {
+Route::middleware(['LogUserActivity', 'auth:api'])->group(function () {
     Route::get('workspaces', [WorkspacesController::class, 'index']);
     Route::post('workspaces', [WorkspacesController::class, 'store']);
     Route::get('workspaces/{id}', [WorkspacesController::class, 'show']);
