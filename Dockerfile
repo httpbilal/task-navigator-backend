@@ -1,68 +1,34 @@
-# Base image
-FROM composer:2 as builder
+# Use the official PHP image as the base image
+FROM php:7.4-fpm
 
-# Set working directory
-WORKDIR /var/www/html
-
-# Copy composer files
-COPY composer.json composer.lock ./
-
-
-# Install project dependencies
-RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
-
-# Copy the rest of the project files
-COPY . .
-
-# Build production assets
-RUN php artisan optimize --force
-
-# Final image
-FROM php:7.4-fpm-alpine
-
-# Set working directory
-WORKDIR /var/www/html
-
-# Install system dependencies
-RUN apk --no-cache add \
+# Install system dependencies and PHP extensions
+RUN apt-get update && apt-get install -y \
     libpng-dev \
-    libjpeg-turbo-dev \
-    libwebp-dev \
-    zlib-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
     libzip-dev \
-    postgresql-dev \
-    oniguruma-dev \
-    freetype-dev
+    zip \
+    unzip \
+    git
 
-# Install PHP extensions
-RUN docker-php-ext-install \
-    pdo \
-    pdo_pgsql \
-    pgsql \
-    mbstring \
-    exif \
-    pcntl \
-    bcmath \
-    gd \
-    zip
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg
+RUN docker-php-ext-install gd pdo pdo_mysql zip
 
-# Copy project files from the builder stage
-COPY --from=builder /var/www/html .
+# Set the working directory to /var/www
+WORKDIR /var/www
 
-# Set environment variables
-ENV APP_ENV=production
-ENV APP_KEY=base64:rBOaTS9mDgNXOVFzUP5uhLXr0PrLdrRMjq7IfJS2EZA=
-ENV APP_DEBUG=false
-ENV DB_CONNECTION=pgsql
-ENV DB_HOST=postgres
-ENV DB_PORT=5432
-ENV DB_DATABASE=task-navigator-backend-db
-ENV DB_USERNAME=postgres
-ENV DB_PASSWORD=1166
-ENV JWT_SECRET=o66iC7Uk6R3BMUdxWly39pLTxt6ZoU1CPZfxwmoHs4YM51zMlxPlW62EruCqG3FC
+# Copy the Laravel application files to the container
+COPY /home/bilaljaved/Work/task-navigator-backend/ ./
 
-# Expose port
-EXPOSE 8000
+# Move composer.json and composer.lock to the root of the Laravel app
+RUN mv ./composer.json ./composer.lock ./
 
-# Start the PHP development server
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+# Install Composer and run 'composer install'
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN composer install --no-interaction --no-plugins --no-scripts --prefer-dist
+
+# Expose the container port (adjust if your app uses a different port)
+EXPOSE 9000
+
+# Start the PHP-FPM server
+CMD ["php-fpm"]

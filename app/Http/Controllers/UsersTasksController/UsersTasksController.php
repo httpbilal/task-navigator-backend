@@ -14,85 +14,76 @@ class UsersTasksController extends Controller
         return response()->json(['users_tasks' => $usersTasks]);
     }
 
-    public function tasksAssignedToUser($user_id)
+
+    public function show($id)
     {
-        $usertasks = UsersTasks::where('user_id', $user_id)->get();
-
-        if ($usertasks->isEmpty()) {
-            return response()->json(['error' => 'No assignments found'], 404);
+        $usertask = UsersTasks::find($id);
+        if (!$usertask) {
+            return response()->json(['error' => 'NO assignment found'], 404);
         }
-
-        // $taskIds = $usertasks->pluck('task_id');
-        // $tasks = Task::whereIn('id', $taskIds)->get();
-
-        return response()->json(['tasks' => $usertasks]);
+        return response()->json(['users_tasks' => $usertask]);
     }
 
 
-public function store(Request $request)
-{
-$validator = Validator::make($request->all(), [
-'user_id' => 'required|exists:users,id',
-'task_id' => 'required|exists:tasks,id',
-]);
+    public function update(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|exists:users,id',
+            'task_id' => 'required|exists:tasks,id',
+        ]);
 
-if ($validator->fails()) {
-return response()->json(['error' => $validator->errors()], 400);
-}
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 400);
+        }
 
-$usersTasks = UsersTasks::create([
-'user_id' => $request->input('user_id'),
-'task_id' => $request->input('task_id'),
-]);
+        $usersTask = UsersTasks::find($id);
 
-return response()->json(['users_tasks' => $usersTasks], 201);
-}
+        if (!$usersTask) {
+            return response()->json(['error' => 'Users task not found'], 404);
+        }
 
-public function show($id)
-{
-$usertask = UsersTasks::find($id);
-if (!$usertask) {
-return response()->json(['error' => 'NO assignment found'], 404);
-}
-return response()->json(['users_tasks' => $usertask]);
-}
+        $usersTask->user_id = $request->input('user_id');
+        $usersTask->task_id = $request->input('task_id');
+        $usersTask->save();
 
-
-public function update(Request $request, $id)
-{
-$validator = Validator::make($request->all(), [
-'user_id' => 'required|exists:users,id',
-'task_id' => 'required|exists:tasks,id',
-]);
-
-if ($validator->fails()) {
-return response()->json(['error' => $validator->errors()], 400);
-}
-
-$usersTask = UsersTasks::find($id);
-
-if (!$usersTask) {
-return response()->json(['error' => 'Users task not found'], 404);
-}
-
-$usersTask->user_id = $request->input('user_id');
-$usersTask->task_id = $request->input('task_id');
-$usersTask->save();
-
-return response()->json(['users_task' => $usersTask]);
-}
+        return response()->json(['users_task' => $usersTask]);
+    }
 
 
 
-public function destroy($id)
-{
-$usersTask = UsersTasks::find($id);
+    public function destroy($id)
+    {
+        $usersTask = UsersTasks::find($id);
 
-if (!$usersTask) {
-return response()->json(['error' => 'Users task not found'], 404);
-}
+        if (!$usersTask) {
+            return response()->json(['error' => 'Users task not found'], 404);
+        }
 
-$usersTask->delete();
-return response()->json(['message' => 'Users task deleted successfully']);
-}
+        $usersTask->delete();
+        return response()->json(['message' => 'Users task deleted successfully']);
+    }
+
+    public function getUserAssignedTasks($userId)
+    {
+        $userTasks = UsersTasks::where('user_id', $userId)->get();
+
+        if ($userTasks->isEmpty()) {
+            return response()->json(['message' => 'No tasks assigned to this user'], 200);
+        }
+
+        return response()->json(['user_assigned_tasks' => $userTasks], 200);
+    }
+
+    public function getTaskAssignedUsers($taskId)
+    {
+        $taskUsers = UsersTasks::where('task_id', $taskId)->get();
+
+        if ($taskUsers->isEmpty()) {
+            return response()->json(['message' => 'No users assigned to this task'], 200);
+        }
+
+        return response()->json(['task_assigned_users' => $taskUsers], 200);
+    }
+
+
 }
