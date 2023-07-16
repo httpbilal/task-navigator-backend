@@ -14,6 +14,20 @@ class Log_activityController extends Controller
         return response()->json(['Activity_Logs' => $ActivityLogs]);
     }
 
+    // Get log records of  non-authenticated users
+    public function record()
+    {
+        $activityLogs = ActivityLog::whereNull('email')->get();
+        return response()->json(['Activity_Logs' => $activityLogs]);
+    }
+
+    // Get log records of authenticated users only
+    public function showAuthenticated()
+    {
+        $activityLogs = ActivityLog::whereNotNull('email')->get();
+        return response()->json(['Activity_Logs' => $activityLogs]);
+    }
+
     // getting data of specific user
 
     public function show($email)
