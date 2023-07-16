@@ -71,54 +71,36 @@ Task Navigator provides a comprehensive set of API routes to interact with the s
     - `POST /api/login`: Authenticate a user and return a JWT.
     - `POST /api/logout`: Logout user.
 
-[//]: # (- Workspace Management:)
+- Workspace Management:
+    - `GET /api/workspaces`: Get all workspaces for the authenticated user.
+    - `POST /api/workspaces`: Create a new workspace.
+    - `GET /api/workspaces/{workspaceId}`: Get a specific workspace.
+    - `PUT /api/workspaces/{workspaceId}`: Update a specific workspace.
+    - `DELETE /api/workspaces/{workspaceId}`: Delete a specific workspace.
 
-[//]: # (    - `GET /api/workspaces`: Get all workspaces for the authenticated user.)
-
-[//]: # (    - `POST /api/workspaces`: Create a new workspace.)
-
-[//]: # (    - `GET /api/workspaces/{workspaceId}`: Get a specific workspace.)
-
-[//]: # (    - `PUT /api/workspaces/{workspaceId}`: Update a specific workspace.)
-
-[//]: # (    - `DELETE /api/workspaces/{workspaceId}`: Delete a specific workspace.)
-
-[//]: # (- Project Management:)
-
-[//]: # (    - `GET /api/projects`: Get all projects for the authenticated user.)
-
-[//]: # (    - `POST /api/projects`: Create a new project.)
-
-[//]: # (    - `GET /api/projects/{projectId}`: Get a specific project.)
-
-[//]: # (    - `PUT /api/projects/{projectId}`: Update a specific project.)
-
-[//]: # (    - `DELETE /api/projects/{projectId}`: Delete a specific project.)
+- Project Management:
+    - `GET /api/projects`: Get all projects for the authenticated user.
+    - `POST /api/projects`: Create a new project.
+    - `GET /api/projects/{projectId}`: Get a specific project.
+    - `PUT /api/projects/{projectId}`: Update a specific project.
+    - `DELETE /api/projects/{projectId}`: Delete a specific project.
 
 - Task Management:
     - `GET /api/tasks`: Get all tasks for the authenticated user.
     - `GET /api/fetch-top-tasks/{userId}`: Get top-priority tasks for the authenticated user.
     - `GET /api/tasks/{taskId}`: Delete a specific task.
     - `POST /api/tasks`: Create a new task.
-    - `POST /api/save-top-tasks/{userId}`: Save top-priority tasks 
+    - `POST /api/save-top-tasks/{userId}`: Save top-priority tasks
     - `GET /api/tasks/{taskId}`: Get a specific task.
     - `PUT /api/tasks/{taskId}`: Update a specific task.
     - `DELETE /api/tasks/{taskId}`: Delete a specific task.
-    
 
-
-
-[//]: # (- Status Management:)
-
-[//]: # (    - `GET /api/statuses`: Get all statuses for the authenticated user.)
-
-[//]: # (    - `POST /api/statuses`: Create a new status.)
-
-[//]: # (    - `GET /api/statuses/{statusId}`: Get a specific status.)
-
-[//]: # (    - `PUT /api/statuses/{statusId}`: Update a specific status.)
-
-[//]: # (    - `DELETE /api/statuses/{statusId}`: Delete a specific status.)
+- Status Management:
+    - `GET /api/statuses`: Get all statuses for the authenticated user.
+    - `POST /api/statuses`: Create a new status.
+    - `GET /api/statuses/{statusId}`: Get a specific status.
+    - `PUT /api/statuses/{statusId}`: Update a specific status.
+    - `DELETE /api/statuses/{statusId}`: Delete a specific status.
 
 ## Contributing
 
