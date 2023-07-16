@@ -20,7 +20,7 @@ class WorkspacesController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'owner' => 'required|exists:users,id',
+            'owner_id' => 'required|exists:users,id',
         ]);
 
         if ($validator->fails()) {
@@ -45,7 +45,7 @@ class WorkspacesController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'nullable|string|max:255',
-            'owner' => 'nullable|exists:users,id',
+            'owner_id' => 'nullable|exists:users,id',
         ]);
 
         if ($validator->fails()) {

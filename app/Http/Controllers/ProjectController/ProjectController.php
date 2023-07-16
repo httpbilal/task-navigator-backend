@@ -19,7 +19,7 @@ class ProjectController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'workspace' => 'required|exists:workspaces,id',
+            'workspace_id' => 'required|exists:workspaces,id',
         ]);
 
         if ($validator->fails()) {
@@ -44,7 +44,7 @@ class ProjectController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'nullable|string|max:255',
-            'workspace' => 'nullable|exists:workspaces,id',
+            'workspace_id' => 'nullable|exists:workspaces,id',
         ]);
 
         if ($validator->fails()) {
@@ -61,7 +61,6 @@ class ProjectController extends Controller
         return response()->json(['project' => $project, 'message' => 'Project updated successfully']);
     }
 
-    // Delete a specific project
     public function destroy($id)
     {
         $project = Project::find($id);

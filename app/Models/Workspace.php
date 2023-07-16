@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Workspace extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'owner'];
+    protected $fillable = ['name', 'owner_id'];
 
     protected $hidden = [
         'created_at',

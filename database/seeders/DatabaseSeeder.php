@@ -1,14 +1,14 @@
 <?php
-
+ 
 namespace Database\Seeders;
 
 use App\Models\Project;
 use App\Models\User;
-use App\Models\UsersTasks;
 use App\Models\Workspace;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Task;
+use App\Models\UsersTasks;
 use Database\Seeders\UsersTasksSeeder;
 
 class DatabaseSeeder extends Seeder
@@ -24,8 +24,6 @@ class DatabaseSeeder extends Seeder
         Workspace::factory()->count(100)->create();
         Project::factory()->count(100)->create();
         Task::factory()->count(100)->create();
-        UsersTasks::factory()->count(30)->create();
-
-
+        UsersTasks::factory()->count(100)->create();
     }
 }

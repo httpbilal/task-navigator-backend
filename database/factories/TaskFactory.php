@@ -17,10 +17,8 @@ class TaskFactory extends Factory
             'description' => $this->faker->paragraph(2),
             'due_date' => $this->faker->dateTimeBetween('now', '+1 month')->format('Y-m-d'),
             'priority' => $this->faker->randomElement(['high', 'medium', 'low']),
-<<<<<<< HEAD
-=======
             'project_id' => rand(1, 100), // Assign a random existing project_id or set to null
->>>>>>> bilalwork
+
         ];
     }
 }

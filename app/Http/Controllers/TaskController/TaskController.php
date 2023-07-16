@@ -21,16 +21,16 @@ class TaskController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
             'description' => 'required|string',
-            'assignees' => 'nullable|exists:users,id',
             'priority' => 'required|in:high,medium,low',
             'due_date' => 'required|date',
+            'project_id' => 'required|exists:projects,id', // Validation for project_id
         ]);
 
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 400);
         }
 
-        $task = Task::create($request->all());
+        $task = Task::create($validator->validated());
 
         return response()->json(['task' => $task, 'message' => 'Task created successfully'], 201);
     }
@@ -41,9 +41,8 @@ class TaskController extends Controller
         if (!$task) {
             return response()->json(['error' => 'Task not found'], 404);
         }
-        return response()->json(['user' => $task]);
+        return response()->json(['task' => $task]);
     }
-
 
     public function update(Request $request, $id)
     {
@@ -53,6 +52,7 @@ class TaskController extends Controller
             'assignees' => 'nullable|exists:users,id',
             'priority' => 'nullable|in:high,medium,low',
             'due_date' => 'nullable|date',
+            'project_id' => 'nullable|exists:projects,id', // Validation for project_id
         ]);
 
         if ($validator->fails()) {
@@ -69,7 +69,6 @@ class TaskController extends Controller
         return response()->json(['task' => $task, 'message' => 'Task updated successfully']);
     }
 
-
     public function destroy($id)
     {
         $task = Task::find($id);
@@ -82,5 +81,4 @@ class TaskController extends Controller
 
         return response()->json(['message' => 'Task deleted successfully']);
     }
-
 }
