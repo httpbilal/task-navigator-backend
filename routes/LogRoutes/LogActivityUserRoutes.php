@@ -4,7 +4,7 @@ use App\Http\Controllers\LogController\Log_activityController;
 use Illuminate\Support\Facades\Route;
 
 // Protected routes
-Route::group(['middleware' => ['LogUserActivity', 'auth:api']], function () {
+Route::group(['middleware' => ['auth:api' ,'LogUserActivity']], function () {
     Route::get('user_logs', [Log_activityController::class, 'index']);
     Route::get('user_logs/nonauth', [Log_activityController::class, 'record']);
     Route::get('user_logs/auth', [Log_activityController::class, 'showAuthenticated']);
