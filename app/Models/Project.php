@@ -17,6 +17,6 @@ class Project extends Model
 
     public function workspace()
     {
-        return $this->belongsTo(Workspace::class, 'workspace');
+        return $this->hasOne(Workspace::class, 'workspace_id');
     }
 }

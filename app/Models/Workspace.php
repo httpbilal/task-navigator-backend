@@ -15,8 +15,8 @@ class Workspace extends Model
         'updated_at'
     ];
 
-    public function ownerUser()
+    public function owner()
     {
-        return $this->belongsTo(User::class, 'owner_id');
+        return $this->hasOne(User::class, 'owner_id');
     }
 }

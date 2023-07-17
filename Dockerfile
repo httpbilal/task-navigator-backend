@@ -61,7 +61,12 @@ WORKDIR /var/www
 RUN chown -R www-data:www-data /var/www
 RUN chmod -R 755 /var/www/storage
 
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
 CMD php artisan serve --host=0.0.0.0 --port=8000
 
 # Expose port 8000
 EXPOSE 8000
+RUN composer init -n task-navigator
+
+RUN composer install

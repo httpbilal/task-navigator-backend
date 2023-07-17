@@ -14,4 +14,13 @@ class UsersTasks extends Model
         'created_at',
         'updated_at'
     ];
+
+    public function user()
+    {
+        return $this->hasMany(User::class, 'user_id');
+    }
+    public function task()
+    {
+        return $this->hasMany(Task::class, 'task_id');
+    }
 }
