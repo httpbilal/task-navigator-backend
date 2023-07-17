@@ -4,7 +4,7 @@ use App\Http\Controllers\ProjectController\ProjectController;
 use Illuminate\Support\Facades\Route;
 
 // Protected routes
-Route::middleware('auth:api')->group(function () {
+Route::group(['middleware' => ['LogUserActivity', 'auth:api']], function () {
     Route::get('projects', [ProjectController::class, 'index']);
     Route::post('projects', [ProjectController::class, 'store']);
     Route::get('projects/{id}', [ProjectController::class, 'show']);

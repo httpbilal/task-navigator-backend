@@ -20,10 +20,10 @@ class TaskController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
-            'description' => 'required|string',
-            'assignees' => 'nullable|exists:users,id',
+            'description' => 'nullable|string',
             'priority' => 'required|in:high,medium,low',
             'due_date' => 'required|date',
+            'project_id' => 'required|exists:projects,id',
         ]);
 
         if ($validator->fails()) {
@@ -50,9 +50,9 @@ class TaskController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'nullable|string|max:255',
             'description' => 'nullable|string',
-            'assignees' => 'nullable|exists:users,id',
             'priority' => 'nullable|in:high,medium,low',
             'due_date' => 'nullable|date',
+            'project_id' => 'required|exists:projects,id',
         ]);
 
         if ($validator->fails()) {

@@ -67,18 +67,4 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsToMany(Task::class, 'users_tasks');
     }
 
-//     public static function boot()
-// {
-//     parent::boot();
-
-//     static::pivotDetaching(function ($model, $relationName, $pivotIds) {
-//         if ($relationName === 'tasks') {
-//             foreach ($pivotIds as $pivotId) {
-//                 $key = 'user_tasks:' . $model->id;
-//                 $task = Task::find($pivotId);
-//                 Redis::srem($key, $task->toJson());
-//             }
-//         }
-//     });
-// }
 }

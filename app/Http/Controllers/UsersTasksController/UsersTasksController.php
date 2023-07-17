@@ -8,24 +8,12 @@ use Illuminate\Support\Facades\Validator;
 
 class UsersTasksController extends Controller
 {
-    
+
     public function index()
     {
         $usersTasks = UsersTasks::all();
         return response()->json(['users_tasks' => $usersTasks]);
     }
-
-    public function tasksAssignedToUser($user_id)
-    {
-        $usertasks = UsersTasks::where('user_id', $user_id)->get();
-
-        if ($usertasks->isEmpty()) {
-            return response()->json(['error' => 'No assignments found'], 404);
-        }
-
-        return response()->json(['tasks' => $usertasks]);
-    }
-
 
     public function store(Request $request)
     {
@@ -93,4 +81,26 @@ class UsersTasksController extends Controller
         $usersTask->delete();
         return response()->json(['message' => 'Users task deleted successfully']);
     }
+
+    public function getUserAssignedTasks($userId)
+    {
+        $userTasks = UsersTasks::where('user_id', $userId)->get();
+
+        if ($userTasks->isEmpty()) {
+            return response()->json(['message' => 'No tasks assigned to this user'], 200);
+        }
+
+        return response()->json(['user_assigned_tasks' => $userTasks], 200);
     }
+
+    public function getTaskAssignedUsers($taskId)
+    {
+        $taskUsers = UsersTasks::where('task_id', $taskId)->get();
+
+        if ($taskUsers->isEmpty()) {
+            return response()->json(['message' => 'No users assigned to this task'], 200);
+        }
+
+        return response()->json(['task_assigned_users' => $taskUsers], 200);
+    }
+}
