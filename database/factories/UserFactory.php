@@ -18,13 +18,8 @@ class UserFactory extends Factory
             'firstname' => $this->faker->firstName,
             'lastname' => $this->faker->lastName,
             'image' => null,
-<<<<<<< HEAD
-            'email' => $this->faker->unique()->safeEmail,
-            'password' => bcrypt('password'), // Update this with your desired default password
-=======
             'email' => $email,
             'password' => bcrypt(Str::random(10)),
->>>>>>> bilalwork
         ];
     }
 }

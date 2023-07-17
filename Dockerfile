@@ -1,34 +1,67 @@
-# Use the official PHP image as the base image
-FROM php:7.4-fpm
+# Dockerfile
 
-# Install system dependencies and PHP extensions
-RUN apt-get update && apt-get install -y \
-    libpng-dev \
-    libjpeg-dev \
-    libfreetype6-dev \
-    libzip-dev \
-    zip \
-    unzip \
-    git
+FROM php:8.0-fpm
 
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg
-RUN docker-php-ext-install gd pdo pdo_mysql zip
+LABEL maintainer="Bilal Javed <malikbilaljavaid@gmail.com>"
 
-# Set the working directory to /var/www
+RUN apt-get update
+RUN apt install -y apt-utils
+
+# Install dependencies
+RUN apt-get install -qq -y \
+  curl \
+  git \
+  libzip-dev \
+  zlib1g-dev \
+  zip \
+  unzip
+
+RUN apt install -y libmcrypt-dev libicu-dev libxml2-dev
+RUN apt-get install -y libjpeg-dev libpng-dev libfreetype6-dev libjpeg62-turbo-dev
+
+RUN apt install -y libpq-dev # <- Install libpq-dev here
+
+RUN docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/
+RUN docker-php-ext-install gd
+
+RUN apt install -y libmagickwand-dev --no-install-recommends && \
+  pecl install imagick && docker-php-ext-enable imagick
+
+# Clear cache
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Install extensions
+RUN docker-php-ext-install \
+  bcmath \
+  pdo_pgsql \
+  pcntl \
+  zip \
+  pdo \
+  ctype \
+  tokenizer \
+  fileinfo \
+  xml
+
+# Install intl separately
+RUN docker-php-ext-configure intl
+RUN docker-php-ext-install intl
+
+# Install composer
+RUN curl -sS https://getcomposer.org/installer | php -- \
+  --install-dir=/usr/local/bin --filename=composer && chmod +x /usr/local/bin/composer
+
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+
+RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
+
+COPY . /var/www
+
 WORKDIR /var/www
 
-# Copy the Laravel application files to the container
-COPY /home/bilaljaved/Work/task-navigator-backend/ ./
+RUN chown -R www-data:www-data /var/www
+RUN chmod -R 755 /var/www/storage
 
-# Move composer.json and composer.lock to the root of the Laravel app
-RUN mv ./composer.json ./composer.lock ./
+CMD php artisan serve --host=0.0.0.0 --port=8000
 
-# Install Composer and run 'composer install'
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-RUN composer install --no-interaction --no-plugins --no-scripts --prefer-dist
-
-# Expose the container port (adjust if your app uses a different port)
-EXPOSE 9000
-
-# Start the PHP-FPM server
-CMD ["php-fpm"]
+# Expose port 8000
+EXPOSE 8000
